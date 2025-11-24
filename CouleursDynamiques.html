@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Couleurs dynamiques</title>
+
+<style>
+input[type="text"], select {
+    width: 80px;
+    position: absolute;
+    left:460px;
+}
+input[type="button"] {
+    width: 80px;
+    position: absolute;
+    left:560px;
+}
+fieldset {
+    width: 620px;
+}
+#case {
+    border: solid 1px black;
+    background-color:#40E0D0;
+    padding: 5px;
+}
+</style>
+
+<script>
+
+function fonctionblur() {
+    const champ = document.getElementById("PerteFocus");
+    document.body.style.color = champ.value.trim();
+}
+
+function fonctionchange() {
+    const select = document.getElementById("fondPage");
+    document.body.style.backgroundColor = select.value.trim();
+}
+
+function fonctionkeyup() {
+    const champ = document.getElementById("CouleurFondPageFrappe");
+    const carre = document.getElementById("case");
+    carre.style.backgroundColor = champ.value.trim();
+}
+
+function fonctionclick() {
+    const couleur = document.getElementsByName("fondparagraphe")[0].value.trim();
+    document.getElementById("p1").style.backgroundColor = couleur;
+}
+</script>
+</head>
+
+<body>
+
+<h1>Couleurs dynamiques</h1>
+
+<form>
+
+<fieldset>
+    <legend>Effet immédiat</legend>
+
+    Couleur du texte de la page, à la perte du focus :
+    <input type="text" value="white" id="PerteFocus" onblur="fonctionblur()">
+    <br><br>
+
+    Couleur de fond de page, à chaque changement de sélection :
+    <select id="fondPage" onchange="fonctionchange()">
+        <option value="#40E0D0">Turquoise</option>
+        <option value="#2E8B57">Vert</option>
+        <option value="#87CEEB">Bleu ciel</option>
+        <option value="#F4A460">Marron clair</option>
+        <option value="#FF1493">Rose</option>
+        <option value="#FFFFFF" selected>Blanc</option>
+    </select>
+    <br><br>
+
+    Couleur de fond de la case ci-contre, à chaque touche frappée :
+    <input type="text" value="#000" id="CouleurFondPageFrappe" onkeyup="fonctionkeyup()">
+    <span id="case">&nbsp;&nbsp;&nbsp;</span>
+
+</fieldset>
+
+<br>
+
+<fieldset>
+    <legend>Effet différé</legend>
+    <span id="p1" style="background-color:#eee;">
+        Couleur de fond de <strong>ce paragraphe</strong> après click :
+    </span>
+
+    <input type="text" name="fondparagraphe" value="red">
+    <input type="button" value="Cliquez" onclick="fonctionclick()">
+</fieldset>
+
+</form>
+
+</body>
+</html>
