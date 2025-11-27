@@ -96,7 +96,6 @@ include_once 'Donnees.inc.php';
 <div class="contenu">
     <nav>
         <h3>Recettes</h3>
-        <input type="text" id="RechercheCocktail"  placeholder ="Pas encore fait " onkeyup="dsdsdsdszdzafdzaifdza()">
         <?php
             foreach ( $Recettes as $cocktail){
                 echo "<li>" . htmlspecialchars($cocktail['titre']) . "</li>";
@@ -106,25 +105,25 @@ include_once 'Donnees.inc.php';
 
     <div class="resultats">
         <h2> Recherche pas ingrédients </h2>
-        <input type="text" id="RechercheIngredient" placeholder="En cours" onkeyup="fonctionkeyup()">
+        <input type="text" id="RechercheIngredient" placeholder="En cours" oninput="fonctionkeyup()">
         <div id="resultatsListe"></div>
     </div>
 </div>
 
 <script>
-function fonctionkeyup() {
-    const query = document.getElementById("RechercheIngredient").value.trim();
 
-    if(query !== "") {
+// Lance l'éxécution de la fonction dès le chargement
+document.addEventListener("DOMContentLoaded", fonctionkeyup);
+
+function fonctionkeyup() {
+
+    const query = document.getElementById("RechercheIngredient").value.trim();
 
         fetch('fonctionPHP.php?rech=' + encodeURIComponent(query))
             .then(response => response.text())
             .then(html => {
                 document.getElementById('resultatsListe').innerHTML = html;
             })
-    } else {
-        document.getElementById('resultatsListe').innerHTML = "";
-    }
 }
 </script>
 
