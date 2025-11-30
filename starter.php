@@ -59,7 +59,6 @@ include_once 'Donnees.inc.php';
             display: block;
             margin-bottom: 10px;
             text-decoration: none;
-            color: blue;
         }
         nav input {
             padding: 5px;
@@ -94,18 +93,29 @@ include_once 'Donnees.inc.php';
 </header>
 
 <div class="contenu">
-    <nav>
-        <h3>Recettes</h3>
+<nav>
+    <h3>Sous-catégories de Aliment</h3> 
+    <ul>
         <?php
-            foreach ( $Recettes as $cocktail){
-                echo "<li>" . htmlspecialchars($cocktail['titre']) . "</li>";
+
+
+        if (isset($Hierarchie) && is_array($Hierarchie)) {
+            
+            echo "<p id = \"path\"> Aliment </p>";
+            
+            // Charge les sous-categories de Aliment
+            $sousCategories = $Hierarchie['Aliment']['sous-categorie'];
+            foreach ($sousCategories as $sousCat) {
+                echo "<li><a href =#>". $sousCat . "</a></li>"; 
             }
+        } 
         ?>
-    </nav>
+    </ul>
+</nav>
 
     <div class="resultats">
         <h2> Recherche pas ingrédients </h2>
-        <input type="text" id="RechercheIngredient" placeholder="En cours" oninput="fonctionkeyup()">
+        <input type="text" id="RechercheIngredient" placeholder="En cours" onkeyup="fonctionkeyup()">
         <div id="resultatsListe"></div>
     </div>
 </div>
@@ -119,7 +129,8 @@ function fonctionkeyup() {
 
     const query = document.getElementById("RechercheIngredient").value.trim();
 
-        fetch('fonctionPHP.php?rech=' + encodeURIComponent(query))
+        // Appel de la fonction "rechercheIngredient" avec get = "rech" 
+        fetch('rechercheIngredient.php?rech=' + encodeURIComponent(query))
             .then(response => response.text())
             .then(html => {
                 document.getElementById('resultatsListe').innerHTML = html;
