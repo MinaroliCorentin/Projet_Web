@@ -3,6 +3,16 @@ include_once 'Donnees.inc.php';
 
 session_start();
 
+// Recherche Dans le nav 
+if (isset($_GET['nav'])) {
+    $_SESSION['nav'] = $_GET['nav'];
+}
+
+// Bouton Reset
+if (isset($_GET['reset'])) {
+    $_SESSION["nav"] = 'Aliment';
+}
+
 ?> 
 
 <!DOCTYPE html>
@@ -117,7 +127,7 @@ session_start();
 
                     echo "<ul>";
                     foreach ($info['sous-categorie'] as $element) {
-                        echo '<li><a href="#" onclick="setNav(\'' . addslashes($element) . '\')">' . htmlspecialchars($element) . '</a></li>';
+                        echo '<li><a href="index.php?nav=' . urlencode($element) . '">' . htmlspecialchars($element) . '</a></li>';
                     }
                     echo "</ul>";
                 }
@@ -137,10 +147,7 @@ session_start();
         }
     ?> 
 
-
 </nav>
-
-
 
     <div class="resultats">
         <h2> Recherche pas ingrédients </h2>
@@ -151,7 +158,9 @@ session_start();
 
 <script>
 function setNav(val) {
-    fetch("setNav.php?nav=" + encodeURIComponent(val));
+    fetch("setNav.php?nav=" + encodeURIComponent(val))
+    // Fait rafraichir la page slash fait rafraichir l'affichage
+    .then(() => location.reload());
 }
 </script> 
 
