@@ -6,11 +6,13 @@ session_start();
 // Recherche Dans le nav 
 if (isset($_GET['nav'])) {
     $_SESSION['nav'] = $_GET['nav'];
+    $_SESSION['Historique'] = $_SESSION['Historique'] . "/" . $_SESSION['nav'] ; 
 }
 
 // Bouton Reset
 if (isset($_GET['reset'])) {
     $_SESSION["nav"] = 'Aliment';
+    $_SESSION['Historique'] = 'Aliment'; 
 }
 
 ?> 
@@ -111,7 +113,7 @@ if (isset($_GET['reset'])) {
 
         $recette = $_SESSION["nav"];
 
-        echo " test 1" . $recette ; 
+        echo "<p>" . $_SESSION['Historique'] . "</p>";
 
         echo "<h3>Résultats pour : " . htmlspecialchars($recette) . "</h3>";
 
@@ -156,13 +158,6 @@ if (isset($_GET['reset'])) {
     </div>
 </div>
 
-<script>
-function setNav(val) {
-    fetch("setNav.php?nav=" + encodeURIComponent(val))
-    // Fait rafraichir la page slash fait rafraichir l'affichage
-    .then(() => location.reload());
-}
-</script> 
 
 <script>
 
