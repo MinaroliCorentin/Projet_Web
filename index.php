@@ -1,6 +1,7 @@
 <?php
 include_once 'Donnees.inc.php'; 
 
+session_start();
 
 ?> 
 
@@ -94,44 +95,49 @@ include_once 'Donnees.inc.php';
 
 <div class="contenu">
 <nav>
-    <h3>Sous-catégories de Aliment</h3>
-    <ul>
+
     <?php
-    if (isset($Hierarchie) && is_array($Hierarchie)) {
+    if (isset($_SESSION["nav"]) && $_SESSION["nav"] !== "") {
 
-        echo "<p id='path'>Aliment</p>";
+        $recette = $_SESSION["nav"];
 
-        $sousCategories = $Hierarchie['Aliment']['sous-categorie'];
+        echo " test 1" . $recette ; 
 
-        foreach ($sousCategories as $sousCat) {
-            echo "<li><a href='index.php?recette=" . urlencode($sousCat) . "'>". htmlspecialchars($sousCat). "</a></li>";
-        }
-    }
-    ?>
-    <?php
-    if (isset($_GET['recette']) && $_GET['recette'] !== "") {
-
-        $recette = $_GET['recette'];
         echo "<h3>Résultats pour : " . htmlspecialchars($recette) . "</h3>";
 
         $recetteMin = strtolower($recette);
 
         foreach ($Hierarchie as $categorie => $info) {
 
+            // Cherche du bon nom 
             if (strtolower($categorie) === $recetteMin) {
 
+                // Recherche des keys de la l'association avec les elements
                 if (isset($info['sous-categorie'])) {
+
                     echo "<ul>";
                     foreach ($info['sous-categorie'] as $element) {
-                        echo "<li><a href='index.php?recette=" . urlencode($element) . "'>". htmlspecialchars($element). "</a></li>";
+                        echo '<li><a href="#" onclick="setNav(\'' . addslashes($element) . '\')">' . htmlspecialchars($element) . '</a></li>';
                     }
                     echo "</ul>";
                 }
             }
         }
+    } else {
+        // Stockage de la recherche en cours des ingrédients du nav
+        $_SESSION["nav"] = 'Aliment'; 
     }
     ?>
-    </ul>
+
+    <form method="GET">
+        <input type="submit" name="reset" value="Réinitialiser">
+    </form>
+        <?php if (isset($_GET['reset'])){
+            $_SESSION["nav"] = 'Aliment'; 
+        }
+    ?> 
+
+
 </nav>
 
 
@@ -142,6 +148,12 @@ include_once 'Donnees.inc.php';
         <div id="resultatsListe"></div>
     </div>
 </div>
+
+<script>
+function setNav(val) {
+    fetch("setNav.php?nav=" + encodeURIComponent(val));
+}
+</script> 
 
 <script>
 
