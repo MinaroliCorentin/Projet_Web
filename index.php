@@ -94,24 +94,47 @@ include_once 'Donnees.inc.php';
 
 <div class="contenu">
 <nav>
-    <h3>Sous-catégories de Aliment</h3> 
+    <h3>Sous-catégories de Aliment</h3>
     <ul>
-        <?php
+    <?php
+    if (isset($Hierarchie) && is_array($Hierarchie)) {
 
+        echo "<p id='path'>Aliment</p>";
 
-        if (isset($Hierarchie) && is_array($Hierarchie)) {
-            
-            echo "<p id = \"path\"> Aliment </p>";
-            
-            // Charge les sous-categories de Aliment
-            $sousCategories = $Hierarchie['Aliment']['sous-categorie'];
-            foreach ($sousCategories as $sousCat) {
-                echo "<li><a href =#>". $sousCat . "</a></li>"; 
+        $sousCategories = $Hierarchie['Aliment']['sous-categorie'];
+
+        foreach ($sousCategories as $sousCat) {
+            echo "<li><a href='index.php?recette=" . urlencode($sousCat) . "'>". htmlspecialchars($sousCat). "</a></li>";
+        }
+    }
+    ?>
+    <?php
+    if (isset($_GET['recette']) && $_GET['recette'] !== "") {
+
+        $recette = $_GET['recette'];
+        echo "<h3>Résultats pour : " . htmlspecialchars($recette) . "</h3>";
+
+        $recetteMin = strtolower($recette);
+
+        foreach ($Hierarchie as $categorie => $info) {
+
+            if (strtolower($categorie) === $recetteMin) {
+
+                if (isset($info['sous-categorie'])) {
+                    echo "<ul>";
+                    foreach ($info['sous-categorie'] as $element) {
+                        echo "<li><a href='index.php?recette=" . urlencode($element) . "'>". htmlspecialchars($element). "</a></li>";
+                    }
+                    echo "</ul>";
+                }
             }
-        } 
-        ?>
+        }
+    }
+    ?>
     </ul>
 </nav>
+
+
 
     <div class="resultats">
         <h2> Recherche pas ingrédients </h2>
@@ -138,14 +161,13 @@ function fonctionkeyup() {
 }
 </script>
 
-
-</script>
-
 </div>
 
 <footer>
     Projet Soirée Jeudi Soir 
 </footer>
-
 </body>
+
+
 </html>
+

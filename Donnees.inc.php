@@ -1466,7 +1466,7 @@
     ),
   ),
 );
-       $Hierarchie=array (
+$Hierarchie=array (
   'Épice' => 
   array (
     'sous-categorie' => 
