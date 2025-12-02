@@ -77,6 +77,10 @@ if (isset($_GET['reset'])) {
             padding: 5px;
             margin-bottom: 30px; 
         }
+        nav p {
+            padding: 5px ; 
+            font-size: 10px ;
+        }
         .resultats {
             flex: 1;
             background: white;
@@ -138,7 +142,7 @@ if (isset($_GET['reset'])) {
                     foreach($cocktail['index'] as $ingredient) {
                         // Utilisatoin de strcasecmp et non de strcmp car ingredient est un tableau, pas un string isolé
                         if (strcasecmp(strtolower($ingredient), $categorie) === 0) {
-                            echo "<li>" . htmlspecialchars($cocktail['titre']) . "</li>";
+                            echo "<a href='#' class='cocktail' data-nom='" . htmlspecialchars($cocktail['titre']) . "'>". htmlspecialchars($cocktail['titre']) ."</a><br>";
                             break; 
                         }
                     }
@@ -150,6 +154,9 @@ if (isset($_GET['reset'])) {
     }
     ?>
 
+    <!-- Div id pour les images  -->
+    <div id="preview" style="margin-top:10px;"></div>
+
     <form method="GET">
         <input type="submit" name="reset" value="Réinitialiser">
     </form>
@@ -159,14 +166,38 @@ if (isset($_GET['reset'])) {
     ?> 
 
 </nav>
-
     <div class="resultats">
         <h2> Recherche pas ingrédients </h2>
-        <input type="text" id="RechercheIngredient" placeholder="En cours" onkeyup="fonctionkeyup()">
+        <input type="text" id="RechercheIngredient" onkeyup="fonctionkeyup()">
         <div id="resultatsListe"></div>
     </div>
 </div>
 
+<script> 
+
+document.querySelectorAll(".cocktail").forEach(item => {
+    item.addEventListener("mouseenter", () => {
+        // Recupère le nom 
+        let nom = item.dataset.nom;
+        // Retire les accents 
+        nom = nom.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        // Retire les espaces 
+        nom = nom.replace(/ /g, "_");
+        // Ajoute .jpg
+        nom = nom.concat(".jpg") ; 
+
+        // A FAIRE 
+        // METTRE FULL MINUSCULE PUIS 1ER LETTRE MAJ 
+
+        alert(nom); 
+
+        preview.innerHTML = "<img src='Photos/" + nom + "'>";
+
+
+    });
+});
+
+</script> 
 
 <script>
 
@@ -186,7 +217,6 @@ function fonctionkeyup() {
 }
 </script>
 
-</div>
 
 <footer>
     Projet Soirée Jeudi Soir 
