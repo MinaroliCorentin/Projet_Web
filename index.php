@@ -114,7 +114,6 @@ if (isset($_GET['reset'])) {
         $recette = $_SESSION["nav"];
 
         echo "<p>" . $_SESSION['Historique'] . "</p>";
-
         echo "<h3>Résultats pour : " . htmlspecialchars($recette) . "</h3>";
 
         $recetteMin = strtolower($recette);
@@ -129,15 +128,25 @@ if (isset($_GET['reset'])) {
 
                     echo "<ul>";
                     foreach ($info['sous-categorie'] as $element) {
-                        echo '<li><a href="index.php?nav=' . urlencode($element) . '">' . htmlspecialchars($element) . '</a></li>';
+                        echo '<li><a href="index.php?nav=' . $element . '">' . htmlspecialchars($element) . '</a></li>';
                     }
                     echo "</ul>";
+                } else {
+                // Si le isset ne renvoie rien ( pas de sous-categorie )
+                echo "<ul>";
+                foreach($Recettes as $cocktail) {
+                    foreach($cocktail['index'] as $ingredient) {
+                        // Utilisatoin de strcasecmp et non de strcmp car ingredient est un tableau, pas un string isolé
+                        if (strcasecmp(strtolower($ingredient), $categorie) === 0) {
+                            echo "<li>" . htmlspecialchars($cocktail['titre']) . "</li>";
+                            break; 
+                        }
+                    }
+                }
+                echo "</ul>";
                 }
             }
         }
-    } else {
-        // Stockage de la recherche en cours des ingrédients du nav
-        $_SESSION["nav"] = 'Aliment'; 
     }
     ?>
 
