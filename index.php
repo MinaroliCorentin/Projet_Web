@@ -183,11 +183,17 @@ document.querySelectorAll(".cocktail").forEach(item => {
         nom = nom.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
         // Retire les espaces 
         nom = nom.replace(/ /g, "_");
+
+        // Met en minuscule
+        nom = nom.toLowerCase();  
+        
+        // Met la première lettre en majuscule
+        tmp = nom.charAt(0).toUpperCase()
+        
+        nom = tmp + nom.slice(1)
+
         // Ajoute .jpg
         nom = nom.concat(".jpg") ; 
-
-        // A FAIRE 
-        // METTRE FULL MINUSCULE PUIS 1ER LETTRE MAJ 
 
         alert(nom); 
 
