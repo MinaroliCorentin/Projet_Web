@@ -5,14 +5,16 @@ session_start();
 
 // Recherche Dans le nav 
 if (isset($_GET['nav'])) {
+    if( $_SESSION['nav'] != $_GET['nav'] ){
+        $_SESSION['Historique'] = $_SESSION['Historique'] . "/" . $_SESSION['nav'] ; 
+    }
     $_SESSION['nav'] = $_GET['nav'];
-    $_SESSION['Historique'] = $_SESSION['Historique'] . "/" . $_SESSION['nav'] ; 
 }
 
 // Bouton Reset
 if (isset($_GET['reset'])) {
     $_SESSION["nav"] = 'Aliment';
-    $_SESSION['Historique'] = 'Aliment'; 
+    $_SESSION['Historique'] = ''; 
 }
 
 ?> 
@@ -80,6 +82,11 @@ if (isset($_GET['reset'])) {
         nav p {
             padding: 5px ; 
             font-size: 10px ;
+        }
+        .contenu a {
+            width : 60px ;
+            height : 60px ; 
+            padding : 5px  ; 
         }
         .resultats {
             flex: 1;
