@@ -95,6 +95,12 @@ if (isset($_GET['reset'])) {
             border: 1px solid #ccc;
             margin-left: 15px;
         }
+        #preview img {
+            width: 200px;  
+            height: 200px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
         footer {
             text-align: center;
             padding: 10px;
