@@ -101,11 +101,12 @@ if (isset($_GET['reset'])) {
 <header>
     <div class="logo">LOGO</div>
     <div class="menu-centre">
-        <button>Action 1</button>
+        <button>Mes recettes préfères</button>
         <button>Action 2</button>
         <button>Action 3</button>
         <button>Action 4</button>
     </div>
+    <div class="connection"> Connexion </div>
     <div class="spacer"></div>
 </header>
 
