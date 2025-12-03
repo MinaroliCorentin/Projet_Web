@@ -190,15 +190,14 @@ document.querySelectorAll(".cocktail").forEach(item => {
         // Met la première lettre en majuscule
         tmp = nom.charAt(0).toUpperCase()
         
+        // Fusion de la premiere lettre en majuscule et de nom sans la premiere lettre. 
+        // P + ina colada
         nom = tmp + nom.slice(1)
 
         // Ajoute .jpg
         nom = nom.concat(".jpg") ; 
 
-        alert(nom); 
-
         preview.innerHTML = "<img src='Photos/" + nom + "'>";
-
 
     });
 });
