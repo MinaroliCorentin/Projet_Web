@@ -1,52 +1,86 @@
 <?php
 include_once 'Donnees.inc.php';
 
-if(isset($_GET['rech']) && $_GET['rech'] !== "") {
-    $string = strtolower($_GET['rech']);
-    $listeIngredients = [] ; 
+function getSousCategories(array $ingredients, array $Hierarchie ): array {
 
-    foreach ($Hierarchie as $categorie => $data) {
-        if (strtolower($categorie) === $string) {
+    $nouveauxIngredients = $ingredients;
+    $nouveau = false;
+
+    // Tableau d'ingrédients
+    foreach ($ingredients as $ingreParent) {
+        
+        // Maj première lettre
+        $key = ucfirst($ingreParent);
+
+        // Si il a une sous-categorie
+        if (isset($Hierarchie[$key]) && isset($Hierarchie[$key]['sous-categorie'])) {
+            $data = $Hierarchie[$key];
             
-            $listeIngredients[] = $string;
-
-            foreach ($data['sous-categorie'] as $ingre) {
-                $listeIngredients[] = strtolower($ingre); 
+            // Recherches des sous-catégories 
+            foreach ($data['sous-categorie'] as $ingreEnfant) {
+                $ingreEnfantLower = strtolower($ingreEnfant);
+                
+                // Si nouvelle sous-catégories
+                if (!in_array($ingreEnfantLower, $nouveauxIngredients)) {
+                    $nouveauxIngredients[] = $ingreEnfantLower;
+                    $nouveau = true;
+                }
             }
         }
     }
     
-    // Si l'aliment n'a pas de sous catégories
-    if (empty($listeIngredients)) {
-        $listeIngredients = $string;
+    // Si pas de nouvelle catégories, alors plus besoin de faire une recherche
+    if (!$nouveau) {
+        return $nouveauxIngredients; 
+    } else {
+        return getSousCategories($nouveauxIngredients, $Hierarchie);
     }
+}
 
-    // Retire les doublons
-    $listeIngredients = array_unique($listeIngredients);
+if(isset($_GET['rech']) && $_GET['rech'] !== "") {
+
+    $tmp = 0 ; 
+
+    $string = strtolower($_GET['rech']);
+    $listeIngredients1 = [$string]; 
+
+    $listeIngredients1 = getSousCategories($listeIngredients1, $Hierarchie);
+    $listeIngredients1 = array_unique($listeIngredients1);
 
     echo "<ul>";
-    // Si la liste contient l'ingrédient recherché ou les sous-catégories, on filtre les recettes.
-    if (!empty($listeIngredients)) {
+    if (!empty($listeIngredients1)) {
 
         foreach($Recettes as $cocktail) {
-
-            // Creation du tableau qui contient les recettes
-            $ingredientsCocktail = [] ; 
             
-            // On s'assure que les ingrédients de la recette sont aussi en minuscule pour la comparaison
+            $ingredientsCocktail = [] ; 
+
             foreach ( $cocktail['index'] as $index ){
                 $ingredientsCocktail[] = strtolower($index);
             }
 
-            // On verifie si un ingredient ou sa sous-liste est presente dans la liste des ingredients de X cocktail
-            foreach ($listeIngredients as $ingreRecherche) {
+            // Vérifier s'il y a un match exact
+            foreach ($listeIngredients1 as $ingreRecherche) {
                 if (in_array($ingreRecherche, $ingredientsCocktail)) {
+                    $tmp = 1 ; 
                     echo "<li>" . htmlspecialchars($cocktail['titre']) . "</li>";
                     break;
                 }
             }
         }
     }
+
+    echo " var tmp " . $tmp ; 
+    // Si le mot ne retourne rien
+    if ($tmp === 0){
+        echo "test1 ";
+        foreach ($Hierarchie as $clef => $value){
+            if ( str_contains(strtolower($clef), $string)){
+                echo "test3 ";
+                echo "<li><p style=\"color:#FF0000;\">" . htmlspecialchars($clef) . "</p></li>" ; 
+            }
+        }
+    }
+
     echo "</ul>";
 
 } else {
