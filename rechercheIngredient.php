@@ -24,14 +24,16 @@ if(isset($_GET['rech']) && $_GET['rech'] !== "") {
     // Retire les doublons
     $listeIngredients = array_unique($listeIngredients);
 
-    // 3. Affichage des recettes
     echo "<ul>";
     // Si la liste contient l'ingrédient recherché ou les sous-catégories, on filtre les recettes.
     if (!empty($listeIngredients)) {
+
         foreach($Recettes as $cocktail) {
+
+            // Creation du tableau qui contient les recettes
+            $ingredientsCocktail = [] ; 
             
             // On s'assure que les ingrédients de la recette sont aussi en minuscule pour la comparaison
-            $ingredientsCocktail = [] ; 
             foreach ( $cocktail['index'] as $index ){
                 $ingredientsCocktail[] = strtolower($index);
             }
