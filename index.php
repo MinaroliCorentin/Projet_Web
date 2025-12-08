@@ -29,7 +29,6 @@ if (isset($_POST["connexion"])) {
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-
     <meta charset="UTF-8">
     <title>Projet Recettes</title>
     <link rel="stylesheet" href="couleur.css">
