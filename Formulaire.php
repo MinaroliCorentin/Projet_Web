@@ -92,14 +92,32 @@
     <div class="spacer"></div>
 </header>
 
-<form method="post" action="">
+<form method="post" action="registerHandler.php">
     <fieldset>
         <legend>S'inscrire</legend>
-        Nom : <input type="text" name="nom" required><br><br>
-        Prénom : <input type="text" name="prenom" required><br><br>
+        Nom d'utilisateur : <input type="text" name="username" required><br><br>
+        Nom : <input type="text" name="nom"><br><br>
+        Prénom : <input type="text" name="prenom"><br><br>
+        Date de naissance : <input type="date" name="birth"><br><br>
         Adresse : <input type="text" name="adresse"><br><br>
-        Code Postal : <input type="text" name="codePostale"><br><br>
+        Code Postal : <input type="text" phpname="codePostale"><br><br>
         Ville : <input type="text" name="ville"><br><br>
+        Email : <input type="text" name="ville"><br><br>
+        Mot de passe : <input type="password" name="password" required /><br /><br>
+    </fieldset>
+    <br>
+    <input type="submit" name="connexion" value="Valider">
+</form>
+
+<br>
+<br>
+<br>
+
+<form method="post" action="loginHandler.php">
+    <fieldset>
+        <legend>Se connecter</legend>
+        Nom d'utilisateur : <input type="text" name="username" required><br><br>
+        Mot de passe : <input type="password" name="password" required /><br /><br>
     </fieldset>
     <br>
     <input type="submit" name="connexion" value="Valider">
