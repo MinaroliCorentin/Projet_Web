@@ -22,92 +22,9 @@ if (isset($_GET['reset'])) {
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-
     <meta charset="UTF-8">
     <title>Projet Recettes</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background: #f4f4f4;
-        }
-        header {
-            background: #4CAF50;
-            color: white;
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .logo {
-            font-weight: bold;
-            font-size: 20px;
-        }
-        .menu-centre button {
-            margin: 0 5px;
-            padding: 8px 12px;
-            border: none;
-            background: #fff;
-            cursor: pointer;
-        }
-        .menu-centre {
-            flex: 1;
-            text-align: center;
-        }
-        .spacer {
-            width: 40px;
-        }
-        .contenu {
-            display: flex;
-            width: 1000px;
-            margin: 20px auto;
-            margin-bottom: 10px;
-
-        }
-        nav {
-            width: 200px;
-            background: white;
-            padding: 10px;
-            border: 1px solid #ccc;
-        }
-        nav li {
-            display: block;
-            margin-bottom: 10px;
-            text-decoration: none;
-        }
-        nav input {
-            padding: 5px;
-            margin-bottom: 30px; 
-        }
-        nav p {
-            padding: 5px ; 
-            font-size: 10px ;
-        }
-        .contenu a {
-            width : 60px ;
-            height : 60px ; 
-            padding : 5px  ; 
-        }
-        .resultats {
-            flex: 1;
-            background: white;
-            padding: 15px;
-            border: 1px solid #ccc;
-            margin-left: 15px;
-        }
-        #preview img {
-            width: 200px;  
-            height: 200px;
-            border-radius: 5px;
-            margin-top: 10px;
-        }
-        footer {
-            text-align: center;
-            padding: 10px;
-            background: #ddd;
-            margin-top: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="couleur.css">
 </head>
 <body>
 
