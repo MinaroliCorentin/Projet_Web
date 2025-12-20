@@ -1,116 +1,66 @@
-<?php
-include_once 'Donnees.inc.php'; 
-
-session_start();
-
-// Recherche Dans le nav 
-if (isset($_GET['nav'])) {
-    if( $_SESSION['nav'] != $_GET['nav'] ){
-        $_SESSION['Historique'] = $_SESSION['Historique'] . "/" . $_SESSION['nav'] ; 
-    }
-    $_SESSION['nav'] = $_GET['nav'];
-}
-
-// Bouton Reset
-if (isset($_GET['reset'])) {
-    $_SESSION["nav"] = 'Aliment';
-    $_SESSION['Historique'] = ''; 
-}
-
-
-if (isset($_POST["connexion"])) {
-    header("Location: Formulaire.php");
-    exit();
-}
-
-
-?> 
-
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Projet Recettes</title>
-    <link rel="stylesheet" href="couleur.css">
-</head>
-<body>
-
-<header>
-    <div class="logo">LOGO</div>
-    <div class="menu-centre">
-        <button>Mes recettes préfères</button>
-        <button>Action 2</button>
-        <button>Action 3</button>
-        <button>Action 4</button>
-    </div>
-    <div class="connection"> 
-        <form method="post">
-            <button type="submit" name="connexion">Connexion</button>
-        </form>
-    </div>
-    <div class="spacer"></div>
-</header>
+<?php include 'header.php'; ?>
 
 <div class="contenu">
-<nav>
+    <nav>
+        <div class="resultats">
+            <?php
+            if (isset($_SESSION["nav"]) && $_SESSION["nav"] !== "") {
 
-    <?php
-    if (isset($_SESSION["nav"]) && $_SESSION["nav"] !== "") {
+                $recette = $_SESSION["nav"];
 
-        $recette = $_SESSION["nav"];
+                echo "<p class=\"test\">" . $_SESSION['Historique'] . "</p>";
+                echo "<h3>Résultats pour : " . htmlspecialchars($recette) . "</h3>";
 
-        echo "<p>" . $_SESSION['Historique'] . "</p>";
-        echo "<h3>Résultats pour : " . htmlspecialchars($recette) . "</h3>";
+                $recetteMin = strtolower($recette);
 
-        $recetteMin = strtolower($recette);
+                foreach ($Hierarchie as $categorie => $info) {
 
-        foreach ($Hierarchie as $categorie => $info) {
+                    // Cherche du bon nom 
+                    if (strtolower($categorie) === $recetteMin) {
 
-            // Cherche du bon nom 
-            if (strtolower($categorie) === $recetteMin) {
+                        // Recherche des keys de la l'association avec les elements
+                        if (isset($info['sous-categorie'])) {
 
-                // Recherche des keys de la l'association avec les elements
-                if (isset($info['sous-categorie'])) {
-
-                    echo "<ul>";
-                    foreach ($info['sous-categorie'] as $element) {
-                        echo '<li><a href="index.php?nav=' . $element . '">' . htmlspecialchars($element) . '</a></li>';
-                    }
-                    echo "</ul>";
-                } else {
-                // Si le isset ne renvoie rien ( pas de sous-categorie )
-                echo "<ul>";
-                foreach($Recettes as $cocktail) {
-                    foreach($cocktail['index'] as $ingredient) {
-                        // Utilisatoin de strcasecmp et non de strcmp car ingredient est un tableau, pas un string isolé
-                        if (strcasecmp(strtolower($ingredient), $categorie) === 0) {
-                            echo "<a href='#' class='cocktail' data-nom='" . htmlspecialchars($cocktail['titre']) . "'>". htmlspecialchars($cocktail['titre']) ."</a><br>";
-                            break; 
+                            echo "<ul>";
+                            foreach ($info['sous-categorie'] as $element) {
+                                echo '<li><a href="index.php?nav=' . $element . '">' . htmlspecialchars($element) . '</a></li>';
+                            }
+                            echo "</ul>";
+                        } else {
+                        // Si le isset ne renvoie rien ( pas de sous-categorie )
+                        echo "<ul>";
+                        foreach($Recettes as $cocktail) {
+                            foreach($cocktail['index'] as $ingredient) {
+                                // Utilisatoin de strcasecmp et non de strcmp car ingredient est un tableau, pas un string isolé
+                                if (strcasecmp(strtolower($ingredient), $categorie) === 0) {
+                                    echo "<a href='#' class='cocktail' data-nom='" . htmlspecialchars($cocktail['titre']) . "'>". htmlspecialchars($cocktail['titre']) ."</a><br>";
+                                    break; 
+                                }
+                            }
+                        }
+                        echo "</ul>";
                         }
                     }
                 }
-                echo "</ul>";
-                }
             }
-        }
-    }
-    ?>
+            ?>
 
-    <!-- Div id pour les images  -->
-    <div id="preview" style="margin-top:10px;"></div>
+            <!-- Div id pour les images  -->
+            <div id="preview"></div>
 
-    <form method="GET">
-        <input type="submit" name="reset" value="Réinitialiser">
-    </form>
-        <?php if (isset($_GET['reset'])){
-            $_SESSION["nav"] = 'Aliment'; 
-        }
-    ?> 
-
-</nav>
+            <form method="GET">
+                <input type="submit" name="reset" value="Réinitialiser">
+            </form>
+                <?php if (isset($_GET['reset'])){
+                    $_SESSION["nav"] = 'Aliment'; 
+                }
+            ?> 
+        </div>
+    </nav>
+    
     <div class="resultats">
         <h2> Recherche pas ingrédients </h2>
-        <input type="text" id="RechercheIngredient" onkeyup="fonctionkeyup()">
+        <input type="text" id="RechercheIngredient" onkeyup="fonctionkeyup()" placeholder="Eau">
         <div id="resultatsListe"></div>
     </div>
 </div>
@@ -136,8 +86,21 @@ document.querySelectorAll(".cocktail").forEach(item => {
 
         // Ajoute .jpg
         nom = nom.concat(".jpg") ; 
+        
+        // Préchargement de l'image pour tester son existence
+        const img = new Image();
+        img.src = "Photos/" + nom;
 
-        preview.innerHTML = "<img src='Photos/" + nom + "'>";
+        img.onload = () => {
+            // L'image exites
+            preview.innerHTML = "";
+            preview.appendChild(img);
+        };
+
+        img.onerror = () => {
+            // L'image n'existe pas
+            preview.innerHTML = "<p>Image not found.</p>";
+        };
 
     });
 });
@@ -162,11 +125,7 @@ function fonctionkeyup() {
 }
 </script>
 
-
-<footer>
-    Projet Soirée Jeudi Soir 
-</footer>
+<?php include 'footer.php'; ?>
 </body>
-
 
 </html>

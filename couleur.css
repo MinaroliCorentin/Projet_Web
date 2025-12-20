@@ -1,7 +1,19 @@
+/*Contour du site */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+main {
+    flex: 1;
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     background: #f4f4f4;
+    display: flex;
+    flex-direction: column;
 }
 header {
     background: #4CAF50;
@@ -11,10 +23,19 @@ header {
     align-items: center;
     justify-content: space-between;
 }
-.logo {
-    font-weight: bold;
-    font-size: 20px;
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background: #ddd;
+    margin-top: 20px;
 }
+
+
+
+
+
+/* Menu */
 .menu-centre button {
     margin: 0 5px;
     padding: 8px 12px;
@@ -29,19 +50,38 @@ header {
 .spacer {
     width: 40px;
 }
+
+button{
+    width: auto;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.special{
+    background-color: transparent;
+    color: white;
+    box-shadow: 0 0px 0px rgba(0, 0, 0, 0.3);
+    font-weight: bold;
+    font-size: 20px;
+}
+
+
+
+
+
+/* Corps du site */
 .contenu {
+    margin-top: 5%;
     display: flex;
-    width: 1000px;
-    margin: 20px auto;
-    margin-bottom: 10px;
+    justify-content: center;
+    gap: 2%;
 
 }
-nav {
-    width: 200px;
-    background: white;
-    padding: 10px;
-    border: 1px solid #ccc;
-}
+
 nav li {
     display: block;
     margin-bottom: 10px;
@@ -55,27 +95,81 @@ nav p {
     padding: 5px ; 
     font-size: 10px ;
 }
+
 .contenu a {
     width : 60px ;
     height : 60px ; 
     padding : 5px  ; 
 }
+
 .resultats {
-    flex: 1;
-    background: white;
-    padding: 15px;
-    border: 1px solid #ccc;
-    margin-left: 15px;
+    padding: 30px;
+    padding-right: 50px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+}
+
+#preview {
+    display: flex;
+    justify-content: center;
 }
 #preview img {
     width: 200px;  
     height: 200px;
-    border-radius: 5px;
+    border-radius: 20px;
     margin-top: 10px;
+    margin-bottom: 10px;
 }
-footer {
-    text-align: center;
-    padding: 10px;
-    background: #ddd;
-    margin-top: 20px;
+
+.test {
+    font-size: 15px;
+}
+
+
+
+
+
+/* Pour les formulaires de connexion */
+.formulaire {
+    margin-top: 5%;
+    display: flex;
+    justify-content: center;
+    gap: 5%;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.connexion {
+    padding: 30px;
+    padding-right: 50px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+}
+
+form.connexion input[type="submit"] {
+    width: auto;
+    display: block;
+    margin: 0 auto;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+form.connexion input[type="submit"]:hover {
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4);
+    transform: translateY(-2px);
+    background-color: #45a049;
+    color: white;
 }

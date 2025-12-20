@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         require_once "dbh.inc.php";
 
-        // Get user from DB
+        //verif user
         $query = "SELECT * FROM users WHERE username = :username LIMIT 1;";
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(":username", $username);
@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             die("Utilisateur introuvable.");
         }
 
-        // Verify password
+        // verif pwd
         if (password_verify($password, $user["password"])) {
 
             // Créer une session 

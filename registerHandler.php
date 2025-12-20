@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         require_once "dbh.inc.php";
 
-        /* --- 1. Check if username already exists --- */
+        // Verif user
         $checkQuery = "SELECT username FROM users WHERE username = :username LIMIT 1;";
         $checkStmt = $pdo->prepare($checkQuery);
         $checkStmt->bindParam(":username", $username);
@@ -18,17 +18,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             die("Ce nom d'utilisateur existe déjà.");
         }
 
-        /* --- 2. Hash password --- */
+        // Hash
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        /* --- 3. Insert new user --- */
+        // Mise dans DB
         $query = "INSERT INTO users (username, password) VALUES (:username, :password);";
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(":username", $username);
         $stmt->bindParam(":password", $hashedPassword);
         $stmt->execute();
 
-        /* --- 4. Clean up and redirect --- */
         $pdo = null;
         $stmt = null;
 
