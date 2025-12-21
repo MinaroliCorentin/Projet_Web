@@ -1,8 +1,10 @@
 <?php include 'header.php'; ?>
 <html>
 <body>
+
 <div class="contenu">
     <nav>
+            <!-- Partie Recherche par ingredient nav -->  
         <div class="resultats">
             <?php
             if (isset($_SESSION["nav"]) && $_SESSION["nav"] !== "") {
@@ -34,8 +36,7 @@
                             foreach($cocktail['index'] as $ingredient) {
                                 // Utilisatoin de strcasecmp et non de strcmp car ingredient est un tableau, pas un string isolé
                                 if (strcasecmp(strtolower($ingredient), $categorie) === 0) {
-                                    echo "<a href='#' class='cocktail' data-nom='" . htmlspecialchars($cocktail['titre']) . "'>". htmlspecialchars($cocktail['titre']) ."</a><br>";
-                                    break; 
+                                    echo '<a href="Recette.php?ingredient=' . urlencode($cocktail['titre']) . '" class="cocktail" data-nom="' . htmlspecialchars($cocktail['titre']) . '">' . htmlspecialchars($cocktail['titre']) . '</a><br>';                                    break; 
                                 }
                             }
                         }
@@ -59,6 +60,7 @@
         </div>
     </nav>
     
+    <!-- Partie Recherche par recette -->  
     <div class="resultats">
         <h2> Recherche pas ingrédients </h2>
         <input type="text" id="RechercheIngredient" onkeyup="fonctionkeyup()" placeholder="Eau">
