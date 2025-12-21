@@ -1,68 +1,49 @@
 <?php
 include_once 'Donnees.inc.php';
-include 'header.php'; ?>
-
-<html>
-<body>
-<?php
-echo "<table border='1'>"; 
-echo "<tr> ";
-echo "<td> ";
-
-if(isset($_GET['ingredient']) && $_GET['ingredient'] !== "") {
-
-    $ingredient = $_GET['ingredient'];
-
-    $ingredientjpg = $_GET['ingredient'];
-
-    echo "<h1>" . $ingredient . "</h1>" ; 
-
-    echo $ingredientjpg . "<br>" ; 
-
-    $ingredientjpg = preg_replace('/(\s)/i','_',$ingredientjpg);
-    echo $ingredientjpg . "<br>" ; 
-
-    $ingredientjpg = strtolower($ingredientjpg);
-
-    echo $ingredientjpg . "<br>" ; 
-
-    $ingredientjpg = ucfirst($ingredientjpg);
-
-    echo $ingredientjpg . "<br>" ; 
-
-    // 1. On sépare les accents des lettres (Normalisation NFD)
-    $ingredientjpg = Normalizer::normalize($ingredientjpg, Normalizer::FORM_D);
-    // 2. On supprime les caractères de type "M" (Marks/Accents)
-    $ingredientjpg = preg_replace('/\p{M}/u', '', $ingredientjpg);
-
-    echo $ingredientjpg . "<br>" ; 
-
-    $ingredientjpg = $ingredientjpg . ".jpg" ; 
-
-    echo $ingredientjpg . "<br>" ; 
-
-    if (file_exists("Photos/".$ingredientjpg)) {
-        echo '<img src="Photos/'.$ingredientjpg.'">';
-    } else {
-        echo "FIle non trouvé";
-    }
-}
-
-// J'ai mis cela dans le php pour eviter le cas ou le get marche pas -> Comportement incertain 
-echo "</td>";  
-echo "</tr>";
-echo "<tr>" ;
-echo "<p> dsdsdds </p>" ;
-echo "</tr>" ;
-echo "</table>" ;
-
-echo "<div>";
-echo "<button id =\"favoris\">Ajouter aux favories</button>";
-echo"</div>" 
-
+include 'header.php';
 ?>
 
-<?php include 'footer.php'; ?>
-</body> 
+<main class="contenu">
+    <section class="resultats">
+        
+        <?php
+        if(isset($_GET['ingredient']) && $_GET['ingredient'] !== "") {
+            $ingredient = $_GET['ingredient'];
+            
+            echo "<h1>" . htmlspecialchars($ingredient) . "</h1>";
 
-</html> 
+            foreach ($Recettes as $value){
+                if ( $ingredient === $value['titre'] ){
+                    echo "<strong>Ingrédients :</strong><br><br>";
+                    $ingre_preparation = str_replace('|', '<br>', htmlspecialchars($value['ingredients']));
+                    echo $ingre_preparation;     
+                    echo "<br><br><strong>Préparation :</strong><br><br>";    
+                    // Ajoute br à la fin 
+                    echo nl2br(htmlspecialchars($value['preparation'])); 
+                }
+            }
+
+            // Normalisation + .jpg
+            $ingredientjpg = Normalizer::normalize($ingredient, Normalizer::FORM_D);
+            $ingredientjpg = preg_replace('/\p{M}/u', '', $ingredientjpg);
+            $ingredientjpg = str_replace(' ', '_', ucfirst(strtolower($ingredientjpg))) . ".jpg";
+            $ingredientjpg = str_replace('-', '', $ingredientjpg);
+            $ingredientjpg = str_replace('\'', '', $ingredientjpg);
+
+            
+
+            echo "IMAGE " . $ingredientjpg ; 
+
+            if (file_exists("Photos/".$ingredientjpg)) {
+                echo '<div id="preview"><img src="Photos/'.$ingredientjpg.'" alt="Photo"></div>';
+            }
+        }
+        ?>
+
+        <div style="margin-top: 20px;">
+            <button id="favoris">Ajouter aux favoris</button>
+        </div>
+    </section>
+</main>
+
+<?php include 'footer.php'; ?>

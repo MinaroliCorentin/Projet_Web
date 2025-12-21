@@ -85,8 +85,7 @@ if(isset($_GET['rech']) && $_GET['rech'] !== "") {
     echo "<ul>";
     foreach($Recettes as $cocktail) {
         foreach($cocktail['index'] as $ingredient) {
-                echo " test 3" ; 
-                echo "<li>" . htmlspecialchars($cocktail['titre']) . "</li>";
+                echo '<li><a href="Recette.php?ingredient=' . $cocktail['titre'] . '">' .  htmlspecialchars($cocktail['titre']) . '</a></li>';
                 break ; 
         }
     }
