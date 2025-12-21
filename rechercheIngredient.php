@@ -62,20 +62,17 @@ if(isset($_GET['rech']) && $_GET['rech'] !== "") {
             foreach ($listeIngredients1 as $ingreRecherche) {
                 if (in_array($ingreRecherche, $ingredientsCocktail)) {
                     $tmp = 1 ; 
-                    echo "<li>" . htmlspecialchars($cocktail['titre']) . "</li>";
+                    echo '<li><a href="Recette.php?ingredient=' . $cocktail['titre'] . '">' .  htmlspecialchars($cocktail['titre']) . '</a></li>';
                     break;
                 }
             }
         }
     }
 
-    echo " var tmp " . $tmp ; 
     // Si le mot ne retourne rien
     if ($tmp === 0){
-        echo "test1 ";
         foreach ($Hierarchie as $clef => $value){
             if ( str_contains(strtolower($clef), $string)){
-                echo "test3 ";
                 echo "<li><p style=\"color:#FF0000;\">" . htmlspecialchars($clef) . "</p></li>" ; 
             }
         }
@@ -88,6 +85,7 @@ if(isset($_GET['rech']) && $_GET['rech'] !== "") {
     echo "<ul>";
     foreach($Recettes as $cocktail) {
         foreach($cocktail['index'] as $ingredient) {
+                echo " test 3" ; 
                 echo "<li>" . htmlspecialchars($cocktail['titre']) . "</li>";
                 break ; 
         }

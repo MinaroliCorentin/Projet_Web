@@ -1,5 +1,6 @@
 <?php include 'header.php'; ?>
-
+<html>
+<body>
 <div class="contenu">
     <nav>
         <div class="resultats">
@@ -92,7 +93,7 @@ document.querySelectorAll(".cocktail").forEach(item => {
         img.src = "Photos/" + nom;
 
         img.onload = () => {
-            // L'image exites
+            // L'image existe
             preview.innerHTML = "";
             preview.appendChild(img);
         };
