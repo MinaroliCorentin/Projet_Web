@@ -68,8 +68,10 @@ if(isset($_GET['rech']) && $_GET['rech'] !== "") {
 
     foreach($listeIngredients1 as $key => $ingre){
         if (str_contains($ingre, "!")){
+            // Retrait du ! 
             $listeIngredientRefus[] = ltrim($ingre, "!");          
-            unset($listeIngredients1[$key]); // Supprime de la liste "voulue"
+             // Supprime de la liste "voulue"
+            unset($listeIngredients1[$key]);
         }
     }
 
