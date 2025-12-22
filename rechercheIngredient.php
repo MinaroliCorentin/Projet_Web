@@ -76,12 +76,20 @@ if(isset($_GET['rech']) && $_GET['rech'] !== "") {
 
             // Vérifier s'il y a un match exact
             foreach ($listeIngredients1 as $ingreRecherche) {
-                if (in_array($ingreRecherche, $ingredientsCocktail)) {
-                    $flags = 1 ; 
+
+                foreach ($ingredientsCocktail as $allIngredients){
+                    if ( str_contains($ingreRecherche, $allIngredients)) {
+                        $flags = $flags + 1 ; 
+                        }
+                }
+
+                // Si le partie avec la match au dessus fonctionne 
+                if ($flags > 0 ){
                     echo '<li><a href="Recette.php?ingredient=' . $cocktail['titre'] . '">' .  htmlspecialchars($cocktail['titre']) . afficheEtoile($flags) .  '</a></li>';
                     $flags = 0 ; 
                     break;
                 }
+
             }
         }
     }
