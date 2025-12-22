@@ -1,6 +1,15 @@
 <?php
 include_once 'Donnees.inc.php';
 
+function afficheEtoile ($a){
+
+    $renv = '' ; 
+    for ( $i = 0 ; $i < $a ; $i++){
+        $renv = $renv . "🌟" ; 
+    }
+    return $renv ; 
+}
+
 function getSousCategories(array $ingredients, array $Hierarchie ): array {
 
     $nouveauxIngredients = $ingredients;
@@ -39,10 +48,17 @@ function getSousCategories(array $ingredients, array $Hierarchie ): array {
 
 if(isset($_GET['rech']) && $_GET['rech'] !== "") {
 
-    $tmp = 0 ; 
+    $flags = -1 ; 
 
     $string = strtolower($_GET['rech']);
-    $listeIngredients1 = [$string]; 
+
+    $motsSaisis = explode(',', $string);
+    $listeIngredients1 = [];
+
+    // Retrait des espaces au cas ou 
+    foreach ($motsSaisis as $mot) {
+        $listeIngredients1[] = trim($mot);
+    }
 
     $listeIngredients1 = getSousCategories($listeIngredients1, $Hierarchie);
     $listeIngredients1 = array_unique($listeIngredients1);
@@ -61,16 +77,17 @@ if(isset($_GET['rech']) && $_GET['rech'] !== "") {
             // Vérifier s'il y a un match exact
             foreach ($listeIngredients1 as $ingreRecherche) {
                 if (in_array($ingreRecherche, $ingredientsCocktail)) {
-                    $tmp = 1 ; 
-                    echo '<li><a href="Recette.php?ingredient=' . $cocktail['titre'] . '">' .  htmlspecialchars($cocktail['titre']) . '</a></li>';
+                    $flags = 1 ; 
+                    echo '<li><a href="Recette.php?ingredient=' . $cocktail['titre'] . '">' .  htmlspecialchars($cocktail['titre']) . afficheEtoile($flags) .  '</a></li>';
+                    $flags = 0 ; 
                     break;
                 }
             }
         }
     }
 
-    // Si le mot ne retourne rien
-    if ($tmp === 0){
+    // Si le mot ne retourne rien, affiche des suggestions
+    if ($flags === -1){
         foreach ($Hierarchie as $clef => $value){
             if ( str_contains(strtolower($clef), $string)){
                 echo "<li><p style=\"color:#FF0000;\">" . htmlspecialchars($clef) . "</p></li>" ; 
