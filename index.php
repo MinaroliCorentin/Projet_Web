@@ -78,6 +78,10 @@ document.querySelectorAll(".cocktail").forEach(item => {
         nom = nom.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
         // Retire les espaces 
         nom = nom.replace(/ /g, "_");
+
+        // Remplace les - et les ' par des "" 
+        nom = nom.replace(/['-]/g, "");
+
         // Met en minuscule
         nom = nom.toLowerCase();  
         // Met la première lettre en majuscule
@@ -95,14 +99,14 @@ document.querySelectorAll(".cocktail").forEach(item => {
         img.src = "Photos/" + nom;
 
         img.onload = () => {
-            // L'image existe
-            preview.innerHTML = "";
+            // Bien garder le string vide sinon ca part en 🥜
+            preview.innerHTML = ""; 
             preview.appendChild(img);
         };
 
         img.onerror = () => {
-            // L'image n'existe pas
-            preview.innerHTML = "<p>Image not found.</p>";
+            // L'image n'existe pas : on affiche quand même le nom tenté
+            preview.innerHTML = "<p>Image non trouvée pour : <strong>" + nom + "</strong></p>"; 
         };
 
     });

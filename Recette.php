@@ -12,16 +12,26 @@ include 'header.php';
             
             echo "<h1>" . htmlspecialchars($ingredient) . "</h1>";
 
-            foreach ($Recettes as $value){
-                if ( $ingredient === $value['titre'] ){
-                    echo "<strong>Ingrédients :</strong><br><br>";
-                    $ingre_preparation = str_replace('|', '<br>', htmlspecialchars($value['ingredients']));
-                    echo $ingre_preparation;     
-                    echo "<br><br><strong>Préparation :</strong><br><br>";    
-                    // Ajoute br à la fin 
-                    echo nl2br(htmlspecialchars($value['preparation'])); 
-                }
+        foreach ($Recettes as $value) {
+            if ($ingredient === $value['titre']) {
+                echo "<strong>Ingrédients :</strong><br><br>";
+                
+                // Affichage des ingrédients
+                echo "<ul><li>"; 
+                $ingre = htmlspecialchars($value['ingredients']);
+                echo str_replace('|', '</li><li>', $ingre);
+                echo "</li></ul>";
+
+                echo "<br><strong>Préparation :</strong><br><br>";
+                
+                $prep = htmlspecialchars($value['preparation']);
+                $prep = rtrim($prep, '. '); 
+
+                echo "<ul><li>";
+                echo str_replace('.', '</li><li>', $prep);
+                echo "</li></ul>";
             }
+        }
 
             // Normalisation + .jpg
             $ingredientjpg = Normalizer::normalize($ingredient, Normalizer::FORM_D);
@@ -29,10 +39,6 @@ include 'header.php';
             $ingredientjpg = str_replace(' ', '_', ucfirst(strtolower($ingredientjpg))) . ".jpg";
             $ingredientjpg = str_replace('-', '', $ingredientjpg);
             $ingredientjpg = str_replace('\'', '', $ingredientjpg);
-
-            
-
-            echo "IMAGE " . $ingredientjpg ; 
 
             if (file_exists("Photos/".$ingredientjpg)) {
                 echo '<div id="preview"><img src="Photos/'.$ingredientjpg.'" alt="Photo"></div>';
