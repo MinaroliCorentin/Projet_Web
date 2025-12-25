@@ -63,7 +63,7 @@
     
     <!-- Partie Recherche par recette -->  
     <div class="resultats">
-        <h2> Recherche pas ingrédients </h2>
+        <h2> Recherche par ingrédients </h2>
         <legend> Entrez les ingrédients separé par des virgules. Il est possible d'exclure des aliments en ajoute un ! devant </legend>
         <input type="text" id="RechercheIngredient" onkeyup="fonctionkeyup()" placeholder="citron,!glaçon">
         <div id="resultatsListe"></div>
