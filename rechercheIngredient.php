@@ -106,7 +106,7 @@ if(isset($_GET['rech']) && $_GET['rech'] !== "") {
         }
 
         // On affiche si le cocktail un element voulu 
-        if ($etoiles > 0) {
+        if ($etoiles > 0 || $etoilesDark > 0 ) {
             $flags = 1; 
             echo '<li><a href="Recette.php?ingredient=' . urlencode($cocktail['titre']) . '">' .  
                 htmlspecialchars($cocktail['titre']) . " " . 
