@@ -56,14 +56,15 @@ function getSousCategories(array $ingredients, array $Hierarchie ): array {
 }
 
 if(isset($_GET['rech']) && $_GET['rech'] !== "") {
+
     $flags = -1 ; 
     $string = strtolower($_GET['rech']);
     $motsSaisis = explode(',', $string);
-    $listeIngredients1 = [];
+    $listeIngredients1 = [] ;
     $listeIngredientRefus = [] ; 
 
     foreach ($motsSaisis as $mot) {
-        $listeIngredients1[] = trim($mot);
+        $listeIngredients1[] = preg_replace('/\s/',"",$mot);
     }
 
     foreach($listeIngredients1 as $key => $ingre){

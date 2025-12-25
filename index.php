@@ -29,17 +29,18 @@
                                 echo '<li><a href="index.php?nav=' . $element . '">' . htmlspecialchars($element) . '</a></li>';
                             }
                             echo "</ul>";
+                            
                         } else {
                         // Si le isset ne renvoie rien ( pas de sous-categorie )
-                        echo "<ul>";
-                        foreach($Recettes as $cocktail) {
-                            foreach($cocktail['index'] as $ingredient) {
-                                // Utilisatoin de strcasecmp et non de strcmp car ingredient est un tableau, pas un string isolé
-                                if (strcasecmp(strtolower($ingredient), $categorie) === 0) {
-                                    echo '<a href="Recette.php?ingredient=' . urlencode($cocktail['titre']) . '" class="cocktail" data-nom="' . htmlspecialchars($cocktail['titre']) . '">' . htmlspecialchars($cocktail['titre']) . '</a><br>';                                    break; 
+                            echo "<ul>";
+                            foreach($Recettes as $cocktail) {
+                                foreach($cocktail['index'] as $ingredient) {
+                                    // Utilisatoin de strcasecmp et non de strcmp car ingredient est un tableau, pas un string isolé
+                                    if (strcasecmp(strtolower($ingredient), $categorie) === 0) {
+                                        echo '<a href="Recette.php?ingredient=' . urlencode($cocktail['titre']) . '" class="cocktail" data-nom="' . htmlspecialchars($cocktail['titre']) . '">' . htmlspecialchars($cocktail['titre']) . '</a><br>';                                    break; 
+                                    }
                                 }
                             }
-                        }
                         echo "</ul>";
                         }
                     }
