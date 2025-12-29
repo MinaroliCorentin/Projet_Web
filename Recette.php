@@ -1,5 +1,7 @@
 <?php
-include_once 'Donnees.inc.php';
+include_once 'includes/Donnees.inc.php';
+require_once 'includes/view.inc.php';  
+require_once 'includes/config_session.inc.php';
 include 'header.php';
 ?>
 
@@ -10,7 +12,9 @@ include 'header.php';
         if(isset($_GET['ingredient']) && $_GET['ingredient'] !== "") {
             $ingredient = $_GET['ingredient'];
             
-            echo "<h1>" . htmlspecialchars($ingredient) . "</h1>";
+            $name = htmlspecialchars($ingredient);
+            
+            echo "<h1>" . $name . "</h1>";
 
         foreach ($Recettes as $value) {
             if ($ingredient === $value['titre']) {
@@ -46,8 +50,26 @@ include 'header.php';
         }
         ?>
 
-        <div style="margin-top: 20px;">
-            <button id="favoris">Ajouter aux favoris</button>
+        <div class="fav">
+            <?php
+                $params = [
+                    'ingredient' => $_GET['ingredient'],   // string ou array → OK
+                ];
+
+                $url = 'Recette.php?' . http_build_query($params);
+
+                $_SESSION['retrun_uri'] = $url;
+            ?>
+
+            <form method="post" action="includes/ajout_fav.inc.php">
+                <input type="hidden" name="recette" value="<?= htmlspecialchars($name) ?>">
+                
+                <button id="favoris" class="bouton">Ajouter aux favoris</button>
+            </form>
+
+            <?php
+                check_ajout();
+            ?>
         </div>
     </section>
 </main>

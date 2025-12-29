@@ -1,4 +1,22 @@
-<?php include 'header.php'; ?>
+<?php
+    require_once 'includes/config_session.inc.php';
+
+    // Recherche Dans le nav 
+    if (isset($_GET['nav'])) {
+        if( $_SESSION['nav'] != $_GET['nav'] ){
+            $_SESSION['Historique'] = $_SESSION['Historique'] . "/" . $_SESSION['nav'] ; 
+        }
+        $_SESSION['nav'] = $_GET['nav'];
+    }
+
+    // Bouton Reset
+    if (isset($_GET['reset'])) {
+        $_SESSION["nav"] = 'Aliment';
+        $_SESSION['Historique'] = ''; 
+    }
+
+    include 'header.php';
+?>
 <html>
 <body>
 

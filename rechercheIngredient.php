@@ -1,5 +1,5 @@
 <?php
-include_once 'Donnees.inc.php';
+include_once 'includes/Donnees.inc.php';
 
 function afficheEtoile ($a){
 
