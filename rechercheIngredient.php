@@ -116,7 +116,7 @@ if(isset($_GET['rech']) && $_GET['rech'] !== "") {
         }
     }
 
-    // Si aucun match 
+    // Si aucun match
     if ($flags === -1){
         foreach ($Hierarchie as $clef => $value){
             if (str_contains(strtolower($clef), $string)){
