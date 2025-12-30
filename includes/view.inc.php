@@ -8,23 +8,36 @@
 // Force le typage des variables dans les paramètres fonctions
 declare(strict_types=1);
 
+$tab = [] ; 
 
 // Fonction affiche les erreurs lors de l'inscription
 function check_signup_errors(){
     if (isset($_SESSION['errors_signup'])){
         $errors = $_SESSION['errors_signup'];
+        $tab = [] ; 
 
         echo '<br>';
 
         foreach ($errors as $error){
             echo '<p class="erreur">' . $error . '</p>';
+            $tab[] = $error ; 
         }
 
         unset($_SESSION['errors_signup']);
+
+        // Concaténation du contenu du tab 
+        $string = join(" | ", $tab);
+
+        // Appel js 
+        echo "<script>alert(" . json_encode($string) . ");</script>";
+
     }else if (isset($_GET['signup']) && $_GET['signup'] === "success"){
         echo '<br>';
         echo '<p class="success">Succès de l\'inscription</p>';
     }
+
+
+
 }
 
 

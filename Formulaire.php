@@ -6,6 +6,12 @@
 <main>
     <div class="formulaire">
         <div class="connexion">
+
+            <?php
+                // Verification des informations transmises pour l'inscription
+                check_signup_errors();
+            ?>
+
             <form method="post" action="includes/signup.inc.php">
                 <h1>Inscription</h1>
                 Nom d'utilisateur :<br><input type="text" name="username" placeholder="JeanDu55"><br>
@@ -22,10 +28,7 @@
                 <input type="submit" name="connexion" value="S'inscrire" class="bouton">
             </form>
 
-            <?php
-                // Verification des informations transmises pour l'inscription
-                check_signup_errors();
-            ?>
+
         </div>
 
 
