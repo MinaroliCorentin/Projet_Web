@@ -34,12 +34,8 @@ else{
 
 //Début de la séssion
 session_start();
-if (!isset($_SESSION['nav'])) {
-    $_SESSION["nav"] = 'Aliment';
-}
-if (!isset($_SESSION['Historique'])) {
-    $_SESSION['Historique'] = ''; 
-}
+$_SESSION["nav"] = 'Aliment';
+$_SESSION['Historique'] = ''; 
 
 /*
     Définition de la régénération de la session
