@@ -55,12 +55,20 @@ function affiche_username(){
 function check_login_errors(){
     if(isset($_SESSION['errors_login'])){
         $errors = $_SESSION['errors_login'];
+        $tab = [] ; 
         echo '<br>';
 
         foreach ($errors as $error){
             echo '<p class="erreur">'.$error.'</p>';
+            $tab[] = $error ; 
         }
         unset($_SESSION['errors_login']);
+
+        // Concaténation du contenu du tab 
+        $string = join(" | ", $tab);
+
+        // Appel js 
+        echo "<script>alert(" . json_encode($string) . ");</script>";
     }
     else if (isset($_GET['login']) && $_GET['login'] === 'success'){
         echo '<br>';

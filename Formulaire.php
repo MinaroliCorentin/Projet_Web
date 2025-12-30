@@ -33,6 +33,10 @@
 
 
         <div class="connexion">
+            <?php
+                // Verification des informations transmises pour le connexion
+                check_login_errors();
+            ?>
             <form method="post" action="includes/login.inc.php">
                 <h1>Connexion</h1>
                 Nom d'utilisateur :<br><input type="text" name="username"><br>
@@ -41,10 +45,7 @@
                 <input type="submit" name="connexion" value="Se connecter" class="bouton">
             </form>
             
-            <?php
-                // Verification des informations transmises pour le connexion
-                check_login_errors();
-            ?>
+
         </div>
 
 
